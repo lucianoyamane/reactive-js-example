@@ -4,29 +4,9 @@ const state = { value: 0 }
 
 const observable = new Observable();
    
-const incrementedObserver = observable.subscribe({
-    next(x) {
-        state.value += x;
-    },
-    error(err) {
-        console.error('something wrong occurred incremented: ' + err);
-    },
-    complete() {
-        console.log('final value', state.value);
-    },
-});
+const incrementedObserver = observable.subscribe(x => state.value += x);
 
-const decrementedObserver = observable.subscribe({
-    next(x) {
-        state.value -= x;
-    },
-    error(err) {
-        console.error('something wrong occurred decremented: ' + err);
-    },
-    complete() {
-        console.log('final value', state.value);
-    },
-});
+const decrementedObserver = observable.subscribe(x => state.value -= x);
 
 function main() {
     incrementedObserver.next(1);
@@ -36,8 +16,6 @@ function main() {
     decrementedObserver.next(1);
     console.log('value decremented', state.value);
     console.log('final value', state.value);
-    incrementedObserver.complete();
-    decrementedObserver.complete();
 }
 
 main();
