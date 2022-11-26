@@ -1,37 +1,43 @@
 const { Observable } = require('rxjs');
 
-
+const state = { value: 0 }
 
 const observable = new Observable();
    
-const incremented = observable.subscribe({
+const incrementedObserver = observable.subscribe({
     next(x) {
-        console.log(x + 1);
+        state.value += x;
     },
     error(err) {
         console.error('something wrong occurred incremented: ' + err);
     },
     complete() {
-        console.log('done incremented');
+        console.log('final value', state.value);
     },
 });
 
-const decremented = observable.subscribe({
+const decrementedObserver = observable.subscribe({
     next(x) {
-        console.log(x - 1);
+        state.value -= x;
     },
     error(err) {
         console.error('something wrong occurred decremented: ' + err);
     },
     complete() {
-        console.log('done decremented');
+        console.log('final value', state.value);
     },
 });
 
 function main() {
-    incremented.next(1);
-    incremented.next(1);
-    decremented.next(1);
+    incrementedObserver.next(1);
+    console.log('value incremented', state.value);
+    incrementedObserver.next(1);
+    console.log('value incremented', state.value);
+    decrementedObserver.next(1);
+    console.log('value decremented', state.value);
+    console.log('final value', state.value);
+    incrementedObserver.complete();
+    decrementedObserver.complete();
 }
 
 main();
